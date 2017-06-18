@@ -1,0 +1,15 @@
+---
+- name: Set up custom pacman repository
+  template:
+    src: 20-bananapi.conf.j2
+    dest: /etc/pacman.d/fragments.d/20-bananapi.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: rebuild pacman.conf
+
+- name: Force flush_handlers to rebuild pacman.conf
+  meta: flush_handlers
+
+- name: Install latest uboot kernel
+  pacman: name=uboot-bananapi state=installed
